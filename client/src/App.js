@@ -1,9 +1,11 @@
-import Header from './components/Header';
+import { Header } from './components';
+import { SubHeader } from './components';
 
 function App() {
   return (
     <div>
       <Header />
+      <SubHeader />
     </div>
   );
 }
