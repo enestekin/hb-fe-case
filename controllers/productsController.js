@@ -1,11 +1,29 @@
 import axios from 'axios';
+import filterGenerator from '../utils/filterGenerator.js';
+import filterProducts from '../utils/filterProducts.js';
+import sortProducts from '../utils/sortProducts.js';
 
 const getProducts = async (req, res) => {
-  const { data } = await axios('https://hb-mock-data.herokuapp.com/products');
-
+  const { brand, color, sort } = req.query;
   try {
+    const { data } = await axios('https://hb-mock-data.herokuapp.com/products');
+    let products = data;
+
+    const filterOptions = {
+      color: color ? color.split(',') : [],
+      brand: brand ? brand.split(',') : [],
+    };
+
+    const colorFilters = filterGenerator(data, 'color');
+    const brandFilters = filterGenerator(data, 'brand');
+
+    products = filterProducts(products, filterOptions);
+    products = sortProducts(products, sort);
+
     res.status(200).json({
-      products: data,
+      products,
+      colorOptions: colorFilters,
+      brandOptions: brandFilters,
     });
   } catch (error) {
     let message =
