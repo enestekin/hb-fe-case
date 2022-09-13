@@ -2,9 +2,10 @@ import axios from 'axios';
 import filterGenerator from '../utils/filterGenerator.js';
 import filterProducts from '../utils/filterProducts.js';
 import sortProducts from '../utils/sortProducts.js';
+import searchProducts from '../utils/searchProducts.js';
 
 const getProducts = async (req, res) => {
-  const { brand, color, sort } = req.query;
+  const { brand, color, sort, search } = req.query;
   try {
     const { data } = await axios('https://hb-mock-data.herokuapp.com/products');
     let products = data;
@@ -19,6 +20,7 @@ const getProducts = async (req, res) => {
 
     products = filterProducts(products, filterOptions);
     products = sortProducts(products, sort);
+    search && (products = searchProducts(products, search));
 
     res.status(200).json({
       products,
