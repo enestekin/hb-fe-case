@@ -1,6 +1,6 @@
-import { Header } from './components';
-import { SubHeader } from './components';
-import { List } from './components';
+import Header from './components/Header';
+import SubHeader from './components/SubHeader';
+import List from './components/List';
 
 function App() {
   return (

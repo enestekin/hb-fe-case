@@ -1,6 +1,6 @@
 import Logo from '../assets/images/logo.svg';
-import { Search } from './index';
-import { Basket } from './index';
+import Search from './Search';
+import Basket from './Basket';
 import Wrapper from '../assets/wrappers/HeaderWrapper';
 
 const Header = () => {

@@ -1,6 +1,6 @@
 import Wrapper from '../assets/wrappers/ProductsWrapper';
-import { Loading } from './index';
-import { SingleProduct } from './index';
+import Loading from './Loading';
+import SingleProduct from './SingleProduct';
 import { useAppContext } from '../store/appContext';
 
 const Products = () => {

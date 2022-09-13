@@ -1,5 +1,5 @@
-import { Filters } from './index';
-import { Products } from './index';
+import Filters from './Filters';
+import Products from './Products';
 import Wrapper from '../assets/wrappers/ListWrapper';
 
 const List = () => {

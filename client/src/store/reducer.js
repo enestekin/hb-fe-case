@@ -1,4 +1,9 @@
-import { SETUP_PRODUCTS_BEGIN, SETUP_PRODUCTS_SUCCESS } from './actions';
+import {
+  SETUP_PRODUCTS_BEGIN,
+  SETUP_PRODUCTS_SUCCESS,
+  HANDLE_FILTER_CHANGE,
+  HANDLE_SORT_CHANGE,
+} from './actions';
 
 import { initialState } from './appContext';
 
@@ -11,6 +16,38 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       products: action.payload.products,
+      colorOptions: action.payload.colorOptions,
+      brandOptions: action.payload.brandOptions,
+    };
+  }
+  if (action.type === HANDLE_FILTER_CHANGE) {
+    if (
+      !state[action.payload.filterOption].includes(action.payload.filteredValue)
+    ) {
+      const filteredArray = [
+        ...state[action.payload.filterOption],
+        action.payload.filteredValue,
+      ];
+      return {
+        ...state,
+        isLoading: false,
+        [action.payload.filterOption]: filteredArray,
+      };
+    } else {
+      const filteredArray = state[action.payload.filterOption].filter(
+        (item) => item !== action.payload.filteredValue
+      );
+      return {
+        ...state,
+        isLoading: false,
+        [action.payload.filterOption]: filteredArray,
+      };
+    }
+  }
+  if (action.type === HANDLE_SORT_CHANGE) {
+    return {
+      ...state,
+      sort: action.payload.sortedValue,
     };
   }
   return { ...initialState };

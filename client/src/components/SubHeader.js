@@ -1,5 +1,5 @@
 import Wrapper from '../assets/wrappers/SubHeaderWrapper.js';
-import { Dropdown } from './index';
+import Dropdown from './Dropdown';
 
 const SubHeader = () => {
   return (
