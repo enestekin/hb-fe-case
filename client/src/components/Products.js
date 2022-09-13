@@ -10,6 +10,10 @@ const Products = () => {
     return <Loading />;
   }
 
+  if (!products.length && !isLoading) {
+    return <div>Aranan kriterlerde urun bulunamadi.</div>;
+  }
+
   return (
     <Wrapper>
       {products.map((product) => {
