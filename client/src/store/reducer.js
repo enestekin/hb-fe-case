@@ -3,6 +3,7 @@ import {
   SETUP_PRODUCTS_SUCCESS,
   HANDLE_FILTER_CHANGE,
   HANDLE_SORT_CHANGE,
+  HANDLE_SEARCH_CHANGE,
 } from './actions';
 
 import { initialState } from './appContext';
@@ -48,6 +49,12 @@ const reducer = (state, action) => {
     return {
       ...state,
       sort: action.payload.sortedValue,
+    };
+  }
+  if (action.type === HANDLE_SEARCH_CHANGE) {
+    return {
+      ...state,
+      search: action.payload.searchedValue,
     };
   }
   return { ...initialState };
