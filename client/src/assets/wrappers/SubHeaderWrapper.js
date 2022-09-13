@@ -12,6 +12,10 @@ const Wrapper = styled.div`
   p {
     margin: 0;
   }
+
+  .searched-value {
+    color: #b0b0b0;
+  }
 `;
 
 export default Wrapper;
