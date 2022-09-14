@@ -4,8 +4,10 @@ import filterProducts from '../utils/filterProducts.js';
 import sortProducts from '../utils/sortProducts.js';
 import searchProducts from '../utils/searchProducts.js';
 
+const PRODUCT_PER_PAGE = 12;
+
 const getProducts = async (req, res) => {
-  const { brand, color, sort, search } = req.query;
+  const { brand, color, sort, search, page } = req.query;
   try {
     const { data } = await axios('https://hb-mock-data.herokuapp.com/products');
     let products = data;
@@ -22,10 +24,17 @@ const getProducts = async (req, res) => {
     products = sortProducts(products, sort);
     search && (products = searchProducts(products, search));
 
+    const start = (page - 1) * PRODUCT_PER_PAGE;
+    const end = page * PRODUCT_PER_PAGE;
+    const numOfPages = Math.ceil(products.length / PRODUCT_PER_PAGE);
+    console.log(start, end);
+    products = products.slice(start, end);
+
     res.status(200).json({
       products,
       colorOptions: colorFilters,
       brandOptions: brandFilters,
+      numOfPages,
     });
   } catch (error) {
     let message =
