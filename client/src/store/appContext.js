@@ -8,6 +8,7 @@ import {
   HANDLE_FILTER_CHANGE,
   HANDLE_SORT_CHANGE,
   HANDLE_SEARCH_CHANGE,
+  HANDLE_PAGE_CHANGE,
 } from './actions';
 
 const initialState = {
@@ -25,6 +26,8 @@ const initialState = {
   brand: [],
   sort: '',
   search: '',
+  numOfPages: null,
+  page: 1,
 };
 
 const AppContext = React.createContext(initialState);
@@ -33,17 +36,19 @@ const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getProducts = async () => {
-    const { color, brand, sort, search } = state;
-    const URL = `/api/v1/products?color=${color}&brand=${brand}&sort=${sort}&search=${search}`;
+    const { color, brand, sort, search, page } = state;
+    const URL = `/api/v1/products?page=${page}&color=${color}&brand=${brand}&sort=${sort}&search=${search}`;
     dispatch({ type: SETUP_PRODUCTS_BEGIN });
     try {
       const { data } = await axios(URL);
+      console.log(data.numOfPages);
       dispatch({
         type: SETUP_PRODUCTS_SUCCESS,
         payload: {
           products: data.products,
           colorOptions: data.colorOptions,
           brandOptions: data.brandOptions,
+          numOfPages: data.numOfPages,
         },
       });
     } catch (error) {
@@ -66,9 +71,19 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_SEARCH_CHANGE, payload: { searchedValue } });
   };
 
+  const handlePageChange = (page) => {
+    dispatch({ type: HANDLE_PAGE_CHANGE, payload: { page } });
+  };
+
+  useEffect(() => {
+    if (state.page > state.numOfPages) {
+      handlePageChange(1);
+    }
+  }, [state.page, state.numOfPages]);
+
   useEffect(() => {
     getProducts();
-  }, [state.color, state.brand, state.sort, state.search]);
+  }, [state.color, state.brand, state.sort, state.search, state.page]);
 
   return (
     <AppContext.Provider
@@ -78,6 +93,7 @@ const AppProvider = ({ children }) => {
         handleFilterChange,
         handleSortChange,
         handleSearchChange,
+        handlePageChange,
       }}
     >
       {children}

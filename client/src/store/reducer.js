@@ -4,6 +4,7 @@ import {
   HANDLE_FILTER_CHANGE,
   HANDLE_SORT_CHANGE,
   HANDLE_SEARCH_CHANGE,
+  HANDLE_PAGE_CHANGE,
 } from './actions';
 
 import { initialState } from './appContext';
@@ -19,6 +20,7 @@ const reducer = (state, action) => {
       products: action.payload.products,
       colorOptions: action.payload.colorOptions,
       brandOptions: action.payload.brandOptions,
+      numOfPages: action.payload.numOfPages,
     };
   }
   if (action.type === HANDLE_FILTER_CHANGE) {
@@ -55,6 +57,12 @@ const reducer = (state, action) => {
     return {
       ...state,
       search: action.payload.searchedValue,
+    };
+  }
+  if (action.type === HANDLE_PAGE_CHANGE) {
+    return {
+      ...state,
+      page: action.payload.page,
     };
   }
   return { ...initialState };

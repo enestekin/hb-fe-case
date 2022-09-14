@@ -27,7 +27,6 @@ const getProducts = async (req, res) => {
     const start = (page - 1) * PRODUCT_PER_PAGE;
     const end = page * PRODUCT_PER_PAGE;
     const numOfPages = Math.ceil(products.length / PRODUCT_PER_PAGE);
-    console.log(start, end);
     products = products.slice(start, end);
 
     res.status(200).json({
