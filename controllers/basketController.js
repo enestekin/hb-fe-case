@@ -37,4 +37,4 @@ const deleteFromBasket = (req, res) => {
   }
 };
 
-export { getBasket, addToBasket, deleteFromBasket };
+export { addToBasket, deleteFromBasket };
