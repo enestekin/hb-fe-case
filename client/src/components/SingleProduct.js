@@ -1,10 +1,22 @@
 import { useState } from 'react';
-import { Wrapper, Image, Button } from '../assets/wrappers/SingleProduct';
+import {
+  Wrapper,
+  Image,
+  Button,
+} from '../assets/wrappers/SingleProductWrapper';
+import { useAppContext } from '../store/appContext';
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ product, isProductInBasket }) => {
   const [isMouseEnter, setIsMouseEnter] = useState(false);
   const { description, brand, color, discount, discountedPrice, image, price } =
     product;
+  const { addToBasket } = useAppContext();
+
+  const handleClick = (product) => {
+    const productItem = { ...product, addDate: new Date().getTime() };
+    addToBasket(productItem);
+  };
+
   return (
     <Wrapper
       onMouseEnter={() => setIsMouseEnter(true)}
@@ -33,7 +45,16 @@ const SingleProduct = ({ product }) => {
             <span className='discount'>{discount}</span>
           </>
         )}
-        {isMouseEnter && <Button type='button'>Sepete Ekle</Button>}
+        {isMouseEnter && !isProductInBasket && (
+          <Button type='button' onClick={() => handleClick(product)}>
+            Sepete Ekle
+          </Button>
+        )}
+        {isMouseEnter && isProductInBasket && (
+          <Button className='disabled' type='button' disabled>
+            Bu ürünü sepete ekleyemezsiniz.
+          </Button>
+        )}
       </div>
     </Wrapper>
   );

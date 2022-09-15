@@ -5,6 +5,7 @@ import {
   HANDLE_SORT_CHANGE,
   HANDLE_SEARCH_CHANGE,
   HANDLE_PAGE_CHANGE,
+  SETUP_BASKET,
 } from './actions';
 
 import { initialState } from './appContext';
@@ -63,6 +64,12 @@ const reducer = (state, action) => {
     return {
       ...state,
       page: action.payload.page,
+    };
+  }
+  if (action.type === SETUP_BASKET) {
+    return {
+      ...state,
+      basket: action.payload.basket,
     };
   }
   return { ...initialState };

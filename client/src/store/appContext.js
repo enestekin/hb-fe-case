@@ -9,6 +9,7 @@ import {
   HANDLE_SORT_CHANGE,
   HANDLE_SEARCH_CHANGE,
   HANDLE_PAGE_CHANGE,
+  SETUP_BASKET,
 } from './actions';
 
 const initialState = {
@@ -28,6 +29,7 @@ const initialState = {
   search: '',
   numOfPages: null,
   page: 1,
+  basket: JSON.parse(localStorage.getItem('basket')) || [],
 };
 
 const AppContext = React.createContext(initialState);
@@ -75,11 +77,40 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_PAGE_CHANGE, payload: { page } });
   };
 
+  const addToBasket = async (productItem) => {
+    try {
+      const { data } = await axios.post('/api/v1/basket', {
+        productItem: productItem,
+        basket: state.basket,
+      });
+      dispatch({ type: SETUP_BASKET, payload: { basket: data } });
+      localStorage.setItem('basket', JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteFromBasket = async (basketItem) => {
+    try {
+      const { data } = await axios.delete('/api/v1/basket', {
+        data: { basketItem, basket: state.basket },
+      });
+      dispatch({ type: SETUP_BASKET, payload: { basket: data } });
+      localStorage.setItem('basket', JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (state.page > state.numOfPages) {
       handlePageChange(1);
     }
   }, [state.page, state.numOfPages]);
+
+  useEffect(() => {
+    localStorage.setItem('basket', JSON.stringify(state.basket));
+  }, [state.basket]);
 
   useEffect(() => {
     getProducts();
@@ -94,6 +125,8 @@ const AppProvider = ({ children }) => {
         handleSortChange,
         handleSearchChange,
         handlePageChange,
+        addToBasket,
+        deleteFromBasket,
       }}
     >
       {children}

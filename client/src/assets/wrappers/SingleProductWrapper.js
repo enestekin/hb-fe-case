@@ -54,6 +54,11 @@ const Wrapper = styled.div`
     color: #f90000;
     margin-left: 5px;
   }
+
+  .disabled {
+    background: #e5e5e5 !important;
+    color: #484848 !important;
+  }
 `;
 
 const Image = styled.div`

@@ -2,9 +2,10 @@ import Wrapper from '../assets/wrappers/ProductsWrapper';
 import Loading from './Loading';
 import SingleProduct from './SingleProduct';
 import { useAppContext } from '../store/appContext';
+import { isProductInBasket } from '../utils/isProductInBasket';
 
 const Products = () => {
-  const { products, isLoading } = useAppContext();
+  const { products, isLoading, basket } = useAppContext();
 
   if (isLoading) {
     return <Loading />;
@@ -17,7 +18,13 @@ const Products = () => {
   return (
     <Wrapper>
       {products.map((product) => {
-        return <SingleProduct key={product.id} product={product} />;
+        return (
+          <SingleProduct
+            key={product.id}
+            product={product}
+            isProductInBasket={isProductInBasket(product.id, basket)}
+          />
+        );
       })}
     </Wrapper>
   );
