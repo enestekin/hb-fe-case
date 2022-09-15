@@ -1,7 +1,6 @@
 const addToBasket = (req, res) => {
   try {
     const { productItem, basket } = req.body;
-    console.log(basket);
 
     basket.push({
       id: productItem.id,
@@ -22,7 +21,6 @@ const addToBasket = (req, res) => {
 const deleteFromBasket = (req, res) => {
   try {
     const { basketItem, basket } = req.body;
-    console.log(basket);
 
     const itemIndex = basket.findIndex((item) => item.id === basketItem.id);
     const updatedItems = basket.filter((_, index) => index !== itemIndex);
