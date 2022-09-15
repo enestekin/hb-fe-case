@@ -43,7 +43,6 @@ const AppProvider = ({ children }) => {
     dispatch({ type: SETUP_PRODUCTS_BEGIN });
     try {
       const { data } = await axios(URL);
-      console.log(data.numOfPages);
       dispatch({
         type: SETUP_PRODUCTS_SUCCESS,
         payload: {
@@ -53,6 +52,7 @@ const AppProvider = ({ children }) => {
           numOfPages: data.numOfPages,
         },
       });
+      localStorage.setItem('products', JSON.stringify(data.products));
     } catch (error) {
       console.log(error);
     }
