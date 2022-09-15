@@ -5,7 +5,7 @@ import Pagination from './Pagination';
 
 const List = () => {
   return (
-    <div>
+    <div data-testid='list'>
       <Wrapper>
         <Filters />
         <Products />
